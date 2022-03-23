@@ -15,6 +15,7 @@ class _TampilanState extends State<Tampilan> {
   String val = '0';
   String val_nol = '';
   int val_e = 10;
+  String in_count = '';
 
   int nums = 0;
   int val_akhir = 0;
@@ -284,7 +285,12 @@ class _TampilanState extends State<Tampilan> {
                                       if (val == "0") {
                                         val = "2";
                                       } else {
-                                        val = "$val" + "2";
+                                        if (in_count == '1') {
+                                          val = "2";
+                                          in_count = '';
+                                        } else {
+                                          val = "$val" + "2";
+                                        }
                                       }
                                     }
                                   });
@@ -524,12 +530,44 @@ class _TampilanState extends State<Tampilan> {
                               text: '-',
                               onPressed: () {
                                 setState(() {
-                                  if (val.length <= 16) {
-                                    if (val == "0") {
-                                      val = "4";
+                                  operator_data = '';
+                                  operator_data = '-';
+                                  if (!val.contains('-')) {
+                                    val_to_count = int.parse(val);
+                                    val = "$val" + '-';
+                                  } else {
+                                    var check = val.substring(val.length - 1);
+                                    print(check);
+                                    if (check != '-') {
+                                      var before = val;
+                                      print(val);
+
+                                      // print(val);
+                                      val_to_count =
+                                          val_to_count - int.parse(check);
+                                      val = val_to_count.toString() + "-";
+                                      var cut =
+                                          val.substring(0, val.length - 1);
+                                      val_to_show =
+                                          before + '=' + cut.toString();
                                     } else {
-                                      val = "$val" + "4";
+                                      if (check == "+" ||
+                                          check == '-' ||
+                                          check == '/' ||
+                                          check == '*') {
+                                        print(
+                                            'ini jika klik operan lagi ' + val);
+                                        val = val_to_count.toString() + '-';
+                                      } else {
+                                        val = "$val" +
+                                            '-' +
+                                            val_to_count.toString();
+                                      }
                                     }
+
+                                    // val_to_count = int.parse(val);
+                                    // val_to_count =
+                                    //     val_to_count + int.parse(val);
                                   }
                                 });
                               },
@@ -648,34 +686,68 @@ class _TampilanState extends State<Tampilan> {
                                 setState(() {
                                   operator_data = '';
                                   operator_data = '+';
-                                  if (!val.contains('+')) {
-                                    val_to_count = int.parse(val);
-                                    val = "$val" + '+';
+                                  var check = '';
+                                  if (val_to_show == '') {
+                                    val_to_show = val + '+';
+                                    in_count = '1';
                                   } else {
-                                    var check = val.substring(val.length - 1);
-                                    print(check);
-                                    if (check != '+') {
-                                      var before = val;
-                                      print(val);
-
-                                      // print(val);
+                                    check = val_to_show
+                                        .substring(val_to_show.length - 1);
+                                    print('ini check ' + check);
+                                    var cut = val_to_show.substring(
+                                        0, val_to_show.length - 1);
+                                    print('ini cut ' + cut);
+                                    if (check == '+') {
                                       val_to_count =
-                                          val_to_count + int.parse(check);
-                                      val = val_to_count.toString() + "+";
-                                      var cut =
-                                          val.substring(0, val.length - 1);
+                                          int.parse(cut) + int.parse(val);
                                       val_to_show =
-                                          before + '=' + cut.toString();
-                                    } else {
-                                      val = "$val" +
-                                          '+' +
-                                          val_to_count.toString();
+                                          val_to_count.toString() + '+';
+                                      val = val_to_count.toString();
+                                      in_count = '1';
                                     }
-
-                                    // val_to_count = int.parse(val);
-                                    // val_to_count =
-                                    //     val_to_count + int.parse(val);
                                   }
+                                  print(val_to_count);
+                                  print('ini val_to_show ' + val_to_show);
+
+                                  // print('val awal ' + val);
+                                  // if (!val.contains('+') &&
+                                  //     !val.contains('-')) {
+                                  //   val_to_count = int.parse(val);
+                                  //   val = "$val" + '+';
+                                  // } else {
+                                  //   var check = val.substring(val.length - 1);
+                                  //   print('ini check ' + check);
+                                  //   if (check != '+' && check != '-') {
+                                  //     var before = val;
+                                  //     print('ini val ' + val);
+
+                                  //     // print(val);
+                                  //     val_to_count =
+                                  //         val_to_count + int.parse(check);
+                                  //     val = val_to_count.toString() + "+";
+                                  //     var cut =
+                                  //         val.substring(0, val.length - 1);
+                                  //     val_to_show =
+                                  //         before + '=' + cut.toString();
+                                  //   } else {
+                                  //     if (check == "+" ||
+                                  //         check == '-' ||
+                                  //         check == '/' ||
+                                  //         check == '*') {
+                                  //       print(
+                                  //           'ini jika klik operan lagi ' + val);
+                                  //       val = val_to_count.toString() + '+';
+                                  //     } else {
+                                  //       val = "$val" +
+                                  //           '+' +
+                                  //           val_to_count.toString();
+                                  //     }
+                                  //   }
+
+                                  //   // val_to_count = int.parse(val);
+                                  //   // val_to_count =
+                                  //   //     val_to_count + int.parse(val);
+                                  // }
                                 });
                               },
                             ),
