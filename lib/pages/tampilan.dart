@@ -9,32 +9,39 @@ class Tampilan extends StatefulWidget {
 }
 
 class _TampilanState extends State<Tampilan> {
-  int val_to_count = 0;
+  num val_to_count = 0;
   String operator_data = '';
   String val_to_show = '';
   String val = '0';
   String val_nol = '';
-  int val_e = 10;
+  num val_e = 10;
   String in_count = '';
 
-  int nums = 0;
-  int val_akhir = 0;
+  num nums = 0;
+  num val_akhir = 0;
+  String check_button = '';
+  int check_klik = 0;
+  String get_to_history = '';
+  List<String> data_history = [];
+  // List<String> histiry_style = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
+          //header
           Container(
             height: 60,
             color: Colors.white,
           ),
+          //body blue to show
           Container(
               height: 300,
               color: const Color(0XFF56C2FF),
               child: ListView(
                 children: [
                   Container(
-                    height: 40,
+                    height: 60,
                   ),
                   //angka yang akan dihitung
                   Container(
@@ -63,7 +70,7 @@ class _TampilanState extends State<Tampilan> {
                     ),
                   ),
                   Container(
-                    height: 40,
+                    height: 60,
                   ),
                   //hasil
                   Container(
@@ -93,7 +100,9 @@ class _TampilanState extends State<Tampilan> {
                   ),
                 ],
               )),
+          //space 50
           const SizedBox(height: 50),
+          //all button
           Container(
             height: 700,
             width: 0,
@@ -147,13 +156,7 @@ class _TampilanState extends State<Tampilan> {
                                 text: 'CE',
                                 onPressed: () {
                                   setState(() {
-                                    if (val.length <= 16) {
-                                      if (val == "0") {
-                                        val = "3";
-                                      } else {
-                                        val = "$val" + "3";
-                                      }
-                                    }
+                                    val = '0';
                                   });
                                 }),
                           ),
@@ -166,13 +169,8 @@ class _TampilanState extends State<Tampilan> {
                                 text: 'C',
                                 onPressed: () {
                                   setState(() {
-                                    if (val.length <= 16) {
-                                      if (val == "0") {
-                                        val = "3";
-                                      } else {
-                                        val = "$val" + "3";
-                                      }
-                                    }
+                                    val = '0';
+                                    val_to_show = '';
                                   });
                                 }),
                           ),
@@ -185,22 +183,41 @@ class _TampilanState extends State<Tampilan> {
                               text: '<',
                               onPressed: () {
                                 setState(() {
-                                  if (val == "0") {
-                                    val = "0";
-                                  } else {
-                                    // for (var i = 1; i >= val.length; i++) {
-                                    if (val.length == 1) {
+                                  print(check_klik);
+                                  if (check_klik < 1) {
+                                    if (val == "0") {
                                       val = "0";
                                     } else {
-                                      print(val);
-                                      var cut =
-                                          val.substring(0, val.length - 1);
-                                      val = cut;
-                                      print(cut);
+                                      // for (var i = 1; i >= val.length; i++) {
+                                      var check = '';
+                                      check = val_to_show
+                                          .substring(val_to_show.length - 1);
+                                      print('ini check delete ' + check);
+                                      if (val.length == 1) {
+                                        if (check == "=") {
+                                          val_to_show = '';
+                                        } else {
+                                          val = "0";
+                                        }
+                                      } else {
+                                        // print(val);
+                                        // var cut1 = val_to_show.substring(
+                                        //     0, val_to_show.length - 1);
+                                        // print('ini cut ' + cut1);
+                                        if (check == "=") {
+                                          val_to_show = '';
+                                        } else {
+                                          var cut =
+                                              val.substring(0, val.length - 1);
+                                          val = cut;
+                                          print(cut);
+                                        }
+                                      }
                                     }
 
                                     // }
                                   }
+                                  // check_klik++;
                                 });
                               },
                             ),
@@ -237,6 +254,7 @@ class _TampilanState extends State<Tampilan> {
                               text: '1',
                               onPressed: () {
                                 setState(() {
+                                  check_klik = 0;
                                   int check = 0;
                                   int do_min = 0;
                                   if (val.length < 16) {
@@ -244,7 +262,12 @@ class _TampilanState extends State<Tampilan> {
                                     if (val == "0") {
                                       val = "1";
                                     } else {
-                                      val = "$val" + "1";
+                                      if (in_count == '1') {
+                                        val = "1";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "1";
+                                      }
                                     }
                                   } else {
                                     // if (!val.contains('e')) {
@@ -281,6 +304,7 @@ class _TampilanState extends State<Tampilan> {
                                 text: '2',
                                 onPressed: () {
                                   setState(() {
+                                    check_klik = 0;
                                     if (val.length <= 16) {
                                       if (val == "0") {
                                         val = "2";
@@ -305,11 +329,17 @@ class _TampilanState extends State<Tampilan> {
                                 text: '3',
                                 onPressed: () {
                                   setState(() {
+                                    check_klik = 0;
                                     if (val.length <= 16) {
                                       if (val == "0") {
                                         val = "3";
                                       } else {
-                                        val = "$val" + "3";
+                                        if (in_count == '1') {
+                                          val = "3";
+                                          in_count = '';
+                                        } else {
+                                          val = "$val" + "3";
+                                        }
                                       }
                                     }
                                   });
@@ -324,13 +354,55 @@ class _TampilanState extends State<Tampilan> {
                               text: '/',
                               onPressed: () {
                                 setState(() {
-                                  if (val.length <= 16) {
-                                    if (val == "0") {
-                                      val = "4";
-                                    } else {
-                                      val = "$val" + "4";
+                                  check_klik++;
+                                  operator_data = '';
+                                  operator_data = '/';
+                                  var check = '';
+                                  print('ini cek klik' + check_klik.toString());
+                                  if (val_to_show == '' || check_klik > 1) {
+                                    val_to_show = val + '/';
+                                    in_count = '1';
+                                  } else {
+                                    check = val_to_show
+                                        .substring(val_to_show.length - 1);
+                                    print('ini check ' + check);
+                                    var cut = val_to_show.substring(
+                                        0, val_to_show.length - 1);
+                                    print('ini cut ' + cut);
+                                    if (check == '-' ||
+                                        check == '+' ||
+                                        check == '/' ||
+                                        check == '*') {
+                                      if (check != '/') {
+                                        if (check == '-') {
+                                          val_to_count =
+                                              num.parse(cut) - num.parse(val);
+                                        } else if (check == '*') {
+                                          val_to_count =
+                                              num.parse(cut) * num.parse(val);
+                                        } else if (check == '+') {
+                                          val_to_count =
+                                              num.parse(cut) + num.parse(val);
+                                        }
+                                      } else {
+                                        val_to_count =
+                                            num.parse(cut) / num.parse(val);
+                                      }
+                                      val_to_show = val_to_count.toString() +
+                                          operator_data;
+                                      get_to_history = cut +
+                                          '$operator_data' +
+                                          val +
+                                          '=' +
+                                          val_to_count.toString();
+                                      data_history.add(get_to_history);
+                                      val = val_to_count.toString();
+                                      in_count = '1';
                                     }
                                   }
+                                  print(val_to_count);
+                                  print('ini val_to_show ' + val_to_show);
+                                  print(data_history);
                                 });
                               },
                             ),
@@ -367,11 +439,17 @@ class _TampilanState extends State<Tampilan> {
                               text: '4',
                               onPressed: () {
                                 setState(() {
+                                  check_klik = 0;
                                   if (val.length <= 16) {
                                     if (val == "0") {
                                       val = "4";
                                     } else {
-                                      val = "$val" + "4";
+                                      if (in_count == '1') {
+                                        val = "4";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "4";
+                                      }
                                     }
                                   }
                                 });
@@ -387,11 +465,17 @@ class _TampilanState extends State<Tampilan> {
                               text: '5',
                               onPressed: () {
                                 setState(() {
+                                  check_klik = 0;
                                   if (val.length <= 16) {
                                     if (val == "0") {
                                       val = "5";
                                     } else {
-                                      val = "$val" + "5";
+                                      if (in_count == '1') {
+                                        val = "5";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "5";
+                                      }
                                     }
                                   }
                                 });
@@ -406,12 +490,18 @@ class _TampilanState extends State<Tampilan> {
                             child: CustomButton(
                               text: '6',
                               onPressed: () {
+                                check_klik = 0;
                                 setState(() {
                                   if (val.length <= 16) {
                                     if (val == "0") {
                                       val = "6";
                                     } else {
-                                      val = "$val" + "6";
+                                      if (in_count == '1') {
+                                        val = "6";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "6";
+                                      }
                                     }
                                   }
                                 });
@@ -427,13 +517,55 @@ class _TampilanState extends State<Tampilan> {
                               text: 'x',
                               onPressed: () {
                                 setState(() {
-                                  if (val.length <= 16) {
-                                    if (val == "0") {
-                                      val = "4";
-                                    } else {
-                                      val = "$val" + "4";
+                                  check_klik++;
+                                  operator_data = '';
+                                  operator_data = '*';
+                                  var check = '';
+                                  print('ini cek klik' + check_klik.toString());
+                                  if (val_to_show == '' || check_klik > 1) {
+                                    val_to_show = val + '*';
+                                    in_count = '1';
+                                  } else {
+                                    check = val_to_show
+                                        .substring(val_to_show.length - 1);
+                                    print('ini check ' + check);
+                                    var cut = val_to_show.substring(
+                                        0, val_to_show.length - 1);
+                                    print('ini cut ' + cut);
+                                    if (check == '-' ||
+                                        check == '+' ||
+                                        check == '/' ||
+                                        check == '*') {
+                                      if (check != '*') {
+                                        if (check == '-') {
+                                          val_to_count =
+                                              num.parse(cut) - num.parse(val);
+                                        } else if (check == '/') {
+                                          val_to_count =
+                                              num.parse(cut) / num.parse(val);
+                                        } else if (check == '+') {
+                                          val_to_count =
+                                              num.parse(cut) + num.parse(val);
+                                        }
+                                      } else {
+                                        val_to_count =
+                                            num.parse(cut) * num.parse(val);
+                                      }
+                                      val_to_show = val_to_count.toString() +
+                                          operator_data;
+                                      get_to_history = cut +
+                                          '$operator_data' +
+                                          val +
+                                          '=' +
+                                          val_to_count.toString();
+                                      data_history.add(get_to_history);
+                                      val = val_to_count.toString();
+                                      in_count = '1';
                                     }
                                   }
+                                  print(val_to_count);
+                                  print('ini val_to_show ' + val_to_show);
+                                  print(data_history);
                                 });
                               },
                             ),
@@ -470,11 +602,17 @@ class _TampilanState extends State<Tampilan> {
                               text: '7',
                               onPressed: () {
                                 setState(() {
+                                  check_klik = 0;
                                   if (val.length <= 16) {
                                     if (val == "0") {
                                       val = "7";
                                     } else {
-                                      val = "$val" + "7";
+                                      if (in_count == '1') {
+                                        val = "7";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "7";
+                                      }
                                     }
                                   }
                                 });
@@ -490,11 +628,17 @@ class _TampilanState extends State<Tampilan> {
                               text: '8',
                               onPressed: () {
                                 setState(() {
+                                  check_klik = 0;
                                   if (val.length <= 16) {
                                     if (val == "0") {
                                       val = "8";
                                     } else {
-                                      val = "$val" + "8";
+                                      if (in_count == '1') {
+                                        val = "8";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "8";
+                                      }
                                     }
                                   }
                                 });
@@ -510,11 +654,17 @@ class _TampilanState extends State<Tampilan> {
                               text: '9',
                               onPressed: () {
                                 setState(() {
+                                  check_klik = 0;
                                   if (val.length <= 16) {
                                     if (val == "0") {
                                       val = "9";
                                     } else {
-                                      val = "$val" + "9";
+                                      if (in_count == '1') {
+                                        val = "9";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "9";
+                                      }
                                     }
                                   }
                                 });
@@ -530,45 +680,56 @@ class _TampilanState extends State<Tampilan> {
                               text: '-',
                               onPressed: () {
                                 setState(() {
+                                  check_klik++;
                                   operator_data = '';
                                   operator_data = '-';
-                                  if (!val.contains('-')) {
-                                    val_to_count = int.parse(val);
-                                    val = "$val" + '-';
+                                  print('ini cek klik' + check_klik.toString());
+                                  var check = '';
+                                  if (val_to_show == '' || check_klik > 1) {
+                                    val_to_show = val + '-';
+                                    in_count = '1';
                                   } else {
-                                    var check = val.substring(val.length - 1);
-                                    print(check);
-                                    if (check != '-') {
-                                      var before = val;
-                                      print(val);
-
-                                      // print(val);
-                                      val_to_count =
-                                          val_to_count - int.parse(check);
-                                      val = val_to_count.toString() + "-";
-                                      var cut =
-                                          val.substring(0, val.length - 1);
-                                      val_to_show =
-                                          before + '=' + cut.toString();
-                                    } else {
-                                      if (check == "+" ||
-                                          check == '-' ||
-                                          check == '/' ||
-                                          check == '*') {
-                                        print(
-                                            'ini jika klik operan lagi ' + val);
-                                        val = val_to_count.toString() + '-';
+                                    check = val_to_show
+                                        .substring(val_to_show.length - 1);
+                                    print('ini check ' + check);
+                                    var cut = val_to_show.substring(
+                                        0, val_to_show.length - 1);
+                                    print('ini cut ' + cut);
+                                    if (check == '-' ||
+                                        check == '+' ||
+                                        check == '/' ||
+                                        check == '*') {
+                                      if (check != '-') {
+                                        if (check == '+') {
+                                          val_to_count =
+                                              num.parse(cut) + num.parse(val);
+                                        } else if (check == '/') {
+                                          val_to_count =
+                                              num.parse(cut) / num.parse(val);
+                                        } else if (check == '*') {
+                                          val_to_count =
+                                              num.parse(cut) * num.parse(val);
+                                        }
                                       } else {
-                                        val = "$val" +
-                                            '-' +
-                                            val_to_count.toString();
+                                        val_to_count =
+                                            num.parse(cut) - num.parse(val);
                                       }
-                                    }
 
-                                    // val_to_count = int.parse(val);
-                                    // val_to_count =
-                                    //     val_to_count + int.parse(val);
+                                      val_to_show = val_to_count.toString() +
+                                          operator_data;
+                                      get_to_history = cut +
+                                          '$operator_data' +
+                                          val +
+                                          '=' +
+                                          val_to_count.toString();
+                                      data_history.add(get_to_history);
+                                      val = val_to_count.toString();
+                                      in_count = '1';
+                                    }
                                   }
+                                  print(val_to_count);
+                                  print('ini val_to_show ' + val_to_show);
+                                  print(data_history);
                                 });
                               },
                             ),
@@ -629,12 +790,18 @@ class _TampilanState extends State<Tampilan> {
                               text: '0',
                               onPressed: () {
                                 setState(() {
+                                  check_klik = 0;
                                   if (val.length <= 16) {
                                     val_nol = "1";
                                     if (val == "0") {
                                       val = "0";
                                     } else {
-                                      val = "$val" + "0";
+                                      if (in_count == '1') {
+                                        val = "0";
+                                        in_count = '';
+                                      } else {
+                                        val = "$val" + "0";
+                                      }
                                       // int.parse(val);
                                     }
                                   }
@@ -651,26 +818,73 @@ class _TampilanState extends State<Tampilan> {
                               text: '=',
                               onPressed: () {
                                 setState(() {
-                                  String to_equal = '$val' + operator_data;
-                                  List<String> values =
-                                      to_equal.split(operator_data);
-                                  // print(to_equal.split(operator_data).first);
-                                  // print(to_equal.split(operator_data).last);
-                                  // print(to_equal.trimRight());
-                                  values.forEach((e) {
-                                    // nums = e;
-                                    // print(e);
-                                    print(int.parse(e) + int.parse(e));
-                                    val_akhir = int.parse(e) + nums;
-                                    nums = int.parse(e);
-                                  });
-                                  print(nums);
-                                  print(val_akhir);
-                                  var cut = to_equal.substring(
-                                      0, to_equal.length - 1);
-                                  val_to_show = cut;
-                                  val = val_akhir.toString();
-                                  // print(val_akhir.toString());
+                                  check_klik++;
+                                  print(operator_data);
+                                  // operator_data = '';
+
+                                  var check = '';
+                                  print('ini cek klik' + check_klik.toString());
+                                  check = val_to_show
+                                      .substring(val_to_show.length - 1);
+                                  print('ini check ' + check);
+                                  var cut = val_to_show.substring(
+                                      0, val_to_show.length - 1);
+                                  print('ini cut ' + cut);
+                                  if (check == '-' ||
+                                      check == '+' ||
+                                      check == '/' ||
+                                      check == '*') {
+                                    if (check != '+') {
+                                      if (check == '-') {
+                                        val_to_count =
+                                            num.parse(cut) - num.parse(val);
+                                      } else if (check == '/') {
+                                        val_to_count =
+                                            num.parse(cut) / num.parse(val);
+                                      } else if (check == '*') {
+                                        val_to_count =
+                                            num.parse(cut) * num.parse(val);
+                                      }
+                                    } else {
+                                      val_to_count =
+                                          num.parse(cut) + num.parse(val);
+                                    }
+                                    val_to_show =
+                                        cut + operator_data + val + '=';
+                                    get_to_history = cut +
+                                        '$operator_data' +
+                                        val +
+                                        '=' +
+                                        val_to_count.toString();
+                                    data_history.add(get_to_history);
+                                    val = val_to_count.toString();
+                                    in_count = '1';
+                                  }
+                                  operator_data = '=';
+                                  print(val_to_count);
+                                  print('ini val_to_show ' + val_to_show);
+                                  print(data_history);
+
+                                  // String to_equal = '$val' + operator_data;
+                                  // List<String> values =
+                                  //     to_equal.split(operator_data);
+                                  // // print(to_equal.split(operator_data).first);
+                                  // // print(to_equal.split(operator_data).last);
+                                  // // print(to_equal.trimRight());
+                                  // values.forEach((e) {
+                                  //   // nums = e;
+                                  //   // print(e);
+                                  //   print(int.parse(e) + int.parse(e));
+                                  //   val_akhir = int.parse(e) + nums;
+                                  //   nums = int.parse(e);
+                                  // });
+                                  // print(nums);
+                                  // print(val_akhir);
+                                  // var cut = to_equal.substring(
+                                  //     0, to_equal.length - 1);
+                                  // val_to_show = cut;
+                                  // val = val_akhir.toString();
+                                  // // print(val_akhir.toString());
                                 });
                               },
                             ),
@@ -684,10 +898,12 @@ class _TampilanState extends State<Tampilan> {
                               text: '+',
                               onPressed: () {
                                 setState(() {
+                                  check_klik++;
                                   operator_data = '';
                                   operator_data = '+';
                                   var check = '';
-                                  if (val_to_show == '') {
+                                  print('ini cek klik' + check_klik.toString());
+                                  if (val_to_show == '' || check_klik > 1) {
                                     val_to_show = val + '+';
                                     in_count = '1';
                                   } else {
@@ -697,17 +913,42 @@ class _TampilanState extends State<Tampilan> {
                                     var cut = val_to_show.substring(
                                         0, val_to_show.length - 1);
                                     print('ini cut ' + cut);
-                                    if (check == '+') {
-                                      val_to_count =
-                                          int.parse(cut) + int.parse(val);
-                                      val_to_show =
-                                          val_to_count.toString() + '+';
+                                    if (check == '-' ||
+                                        check == '+' ||
+                                        check == '/' ||
+                                        check == '*') {
+                                      if (check != '+') {
+                                        if (check == '-') {
+                                          val_to_count =
+                                              num.parse(cut) - num.parse(val);
+                                        } else if (check == '/') {
+                                          val_to_count =
+                                              num.parse(cut) / num.parse(val);
+                                        } else if (check == '*') {
+                                          val_to_count =
+                                              num.parse(cut) * num.parse(val);
+                                        }
+                                      } else {
+                                        val_to_count =
+                                            num.parse(cut) + num.parse(val);
+                                      }
+
+                                      val_to_show = val_to_count.toString() +
+                                          operator_data;
+
+                                      get_to_history = cut +
+                                          '$operator_data' +
+                                          val +
+                                          '=' +
+                                          val_to_count.toString();
+                                      data_history.add(get_to_history);
                                       val = val_to_count.toString();
                                       in_count = '1';
                                     }
                                   }
                                   print(val_to_count);
                                   print('ini val_to_show ' + val_to_show);
+                                  print(data_history);
 
                                   // print('val awal ' + val);
                                   // if (!val.contains('+') &&
@@ -765,9 +1006,99 @@ class _TampilanState extends State<Tampilan> {
                 //     width: 120, height: 120, color: const Color(0XFFC4C4C4)),
               ],
             ),
-          )
+          ),
+          Container(
+            height: 500,
+            color: Colors.amber,
+            child: ListView(
+              shrinkWrap: true,
+              children: data_history
+                  .map((e) => Wrap(
+                        children: [
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                            ),
+                            child: Text(
+                              e,
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                          )
+                        ],
+                      ))
+                  .toList(),
+              // Container(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: Text("List 2.1"),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: Text("List 2.2"),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: Text("List 2.2"),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: Text("List 2.2"),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: Text("List 2.2"),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: Text("List 2.2"),
+              // ),
+            ),
+          ),
+          // Container(
+          //   child: ListView(
+          //     children: [
+          //       Container(height: 60, color: Colors.blue
+
+          //           // data_history
+          //           //     .map((e) => Wrap(
+          //           //           children: [
+          //           //             Container(
+          //           //               width: 200,
+          //           //               height: 100,
+          //           //               decoration: BoxDecoration(
+          //           //                 borderRadius: BorderRadius.circular(100),
+          //           //                 color: Colors.amber,
+          //           //               ),
+          //           //               child: Text(
+          //           //                 e,
+          //           //                 style: const TextStyle(color: Colors.black),
+          //           //               ),
+          //           //             )
+          //           //           ],
+          //           //         ))
+          //           //     .toList(),
+          //           ),
+          //       Container(height: 60, color: Colors.blue)
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
   }
+
+  // List<Widget> get histiryStyle  [
+  //   List<Widget> output = [];
+  //   output.add(Align(
+  //   child: Container(
+  //       width: 200,
+  //       height: 200,
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(100),
+  //         color: Colors.amber,
+  //       )),
+  // ));
+
+  // ];
+  final List<String> nama = ['diana', 'alfi', 'ainun', 'nur', 'kha', 'sanah'];
 }
