@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalkulator/widgets/custom_button.dart';
+import 'package:kalkulator/widgets/cutom_buttton_delete.dart';
 
 class Tampilan extends StatefulWidget {
   const Tampilan({Key? key}) : super(key: key);
@@ -31,13 +32,47 @@ class _TampilanState extends State<Tampilan> {
         children: [
           //header
           Container(
-            height: 60,
+            height: 50,
             color: Colors.white,
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runAlignment: WrapAlignment.center,
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                const Icon(
+                  Icons.menu,
+                  color: Colors.black,
+                  size: 30,
+                  semanticLabel: 'Text to announce in accessibility modes',
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text(
+                  'Standart',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.black,
+                    fontFamily: 'bree',
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Icon(
+                  Icons.open_in_new,
+                  color: Colors.black,
+                  size: 15,
+                  semanticLabel: 'Text to announce in accessibility modes',
+                ),
+              ],
+            ),
           ),
           //body blue to show
           Container(
               height: 300,
-              color: const Color(0XFF56C2FF),
+              color: const Color(0XFF9BBCD5),
               child: ListView(
                 children: [
                   Container(
@@ -59,7 +94,7 @@ class _TampilanState extends State<Tampilan> {
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Color(0XFFD3DBE1),
+                            color: Color(0XFF7E868B),
                             // overflow: TextOverflow
                             //     .visible, //muncul tidak penuh sisanya titik titik..
                             // fontFamily: "DancingScript",
@@ -83,18 +118,32 @@ class _TampilanState extends State<Tampilan> {
 
                       //atas bawah
                       children: [
-                        Text(
-                          val,
-                          style: const TextStyle(
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            // overflow: TextOverflow
-                            //     .visible, //muncul tidak penuh sisanya titik titik..
-                            // fontFamily: "DancingScript",
+                        // SizedBox(
+                        //   width: 50,
+                        // ),
+                        FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            val,
+                            style: TextStyle(
+                                // fontSize: 55,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0XFF111314),
+                                fontFamily: 'padauk',
+                                fontSize: AdaptiveTextSize()
+                                    .getadaptiveTextSize(context, 50)
+                                // overflow: TextOverflow
+                                //     .visible, //muncul tidak penuh sisanya titik titik..
+                                // fontFamily: "DancingScript",
+                                ),
                           ),
                         ),
+
                         const SizedBox(width: 10),
+                        // Text("Paras Arora",
+                        //     style: TextStyle(
+                        //         fontSize: AdaptiveTextSize()
+                        //             .getadaptiveTextSize(context, 20)))
                       ],
                     ),
                   ),
@@ -104,7 +153,7 @@ class _TampilanState extends State<Tampilan> {
           const SizedBox(height: 50),
           //all button
           Container(
-            height: 700,
+            height: 630,
             width: 0,
             color: Colors.white,
             child: Wrap(
@@ -130,8 +179,8 @@ class _TampilanState extends State<Tampilan> {
                         children: [
                           //%
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                                 text: '%',
@@ -149,8 +198,8 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //CE
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                                 text: 'CE',
@@ -162,8 +211,8 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //C
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                                 text: 'C',
@@ -176,36 +225,48 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //<
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '<',
                               onPressed: () {
                                 setState(() {
                                   print(check_klik);
+                                  print(val);
                                   if (check_klik < 1) {
                                     if (val == "0") {
                                       val = "0";
                                     } else {
                                       // for (var i = 1; i >= val.length; i++) {
-                                      var check = '';
-                                      check = val_to_show
-                                          .substring(val_to_show.length - 1);
-                                      print('ini check delete ' + check);
-                                      if (val.length == 1) {
-                                        if (check == "=") {
-                                          val_to_show = '';
+                                      if (val_to_show != '') {
+                                        var check = '';
+                                        check = val_to_show
+                                            .substring(val_to_show.length - 1);
+                                        print('ini check delete ' + check);
+                                        if (val.length == 1) {
+                                          if (check == "=") {
+                                            val_to_show = '';
+                                          } else {
+                                            val = "0";
+                                          }
                                         } else {
-                                          val = "0";
+                                          // print(val);
+                                          // var cut1 = val_to_show.substring(
+                                          //     0, val_to_show.length - 1);
+                                          // print('ini cut ' + cut1);
+                                          if (check == "=") {
+                                            val_to_show = '';
+                                          } else {
+                                            var cut = val.substring(
+                                                0, val.length - 1);
+                                            val = cut;
+                                            print(cut);
+                                          }
                                         }
                                       } else {
-                                        // print(val);
-                                        // var cut1 = val_to_show.substring(
-                                        //     0, val_to_show.length - 1);
-                                        // print('ini cut ' + cut1);
-                                        if (check == "=") {
-                                          val_to_show = '';
+                                        if (val.length == 1) {
+                                          val = "0";
                                         } else {
                                           var cut =
                                               val.substring(0, val.length - 1);
@@ -231,7 +292,7 @@ class _TampilanState extends State<Tampilan> {
                     ],
                   ),
                 ),
-                //1,2,3,/
+                //7,8,9,/
                 SizedBox(
                   width: 600,
                   child: Column(
@@ -245,110 +306,89 @@ class _TampilanState extends State<Tampilan> {
                         spacing: 10, //bagian kanan
                         runSpacing: 10,
                         children: [
-                          //1
+                          //7
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
-                              text: '1',
+                              text: '7',
                               onPressed: () {
                                 setState(() {
                                   check_klik = 0;
-                                  int check = 0;
-                                  int do_min = 0;
                                   if (val.length < 16) {
-                                    print('cukup');
                                     if (val == "0") {
-                                      val = "1";
+                                      val = "7";
                                     } else {
                                       if (in_count == '1') {
-                                        val = "1";
+                                        val = "7";
                                         in_count = '';
                                       } else {
-                                        val = "$val" + "1";
+                                        val = "$val" + "7";
                                       }
                                     }
-                                  } else {
-                                    // if (!val.contains('e')) {
-                                    //   val = "$val" + "e";
-                                    // } else {
-                                    // if (val.length >= 11) {
-                                    //   if (val.length == 11) {
-                                    //   } else {
-                                    //     check = val.length;
-                                    //     do_min = check - val.length;
-                                    //     print(do_min);
-                                    //     val = val.substring(0, do_min - 1);
-                                    //   }
-
-                                    //   val = "$val" + val_e.toString();
-                                    // } else {
-                                    //   val = "$val" + val_e.toString();
-                                    // }
-
-                                    // val_e += 1;
                                   }
-                                  // val = "$val" + "e";
-                                  // }
                                 });
                               },
                             ),
                           ),
-                          //2
+                          //8
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
-                                text: '2',
-                                onPressed: () {
-                                  setState(() {
-                                    check_klik = 0;
-                                    if (val.length <= 16) {
-                                      if (val == "0") {
-                                        val = "2";
+                              text: '8',
+                              onPressed: () {
+                                setState(() {
+                                  check_klik = 0;
+                                  if (val.length < 16) {
+                                    if (val == "0") {
+                                      val = "8";
+                                    } else {
+                                      if (in_count == '1') {
+                                        val = "8";
+                                        in_count = '';
                                       } else {
-                                        if (in_count == '1') {
-                                          val = "2";
-                                          in_count = '';
-                                        } else {
-                                          val = "$val" + "2";
-                                        }
+                                        val = "$val" + "8";
                                       }
                                     }
-                                  });
-                                }),
+                                  }
+                                });
+                              },
+                            ),
                           ),
-                          //3
+                          //9
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
-                                text: '3',
-                                onPressed: () {
-                                  setState(() {
-                                    check_klik = 0;
-                                    if (val.length <= 16) {
-                                      if (val == "0") {
-                                        val = "3";
+                              text: '9',
+                              onPressed: () {
+                                setState(() {
+                                  check_klik = 0;
+                                  if (val.length < 16) {
+                                    if (val == "0") {
+                                      val = "9";
+                                    } else {
+                                      if (in_count == '1') {
+                                        val = "9";
+                                        in_count = '';
                                       } else {
-                                        if (in_count == '1') {
-                                          val = "3";
-                                          in_count = '';
-                                        } else {
-                                          val = "$val" + "3";
-                                        }
+                                        val = "$val" + "9";
                                       }
                                     }
-                                  });
-                                }),
+                                  }
+                                });
+                              },
+                            ),
                           ),
+
                           //--/-- bagi
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '/',
@@ -432,15 +472,15 @@ class _TampilanState extends State<Tampilan> {
                         children: [
                           //4
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '4',
                               onPressed: () {
                                 setState(() {
                                   check_klik = 0;
-                                  if (val.length <= 16) {
+                                  if (val.length < 16) {
                                     if (val == "0") {
                                       val = "4";
                                     } else {
@@ -458,15 +498,15 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //5
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '5',
                               onPressed: () {
                                 setState(() {
                                   check_klik = 0;
-                                  if (val.length <= 16) {
+                                  if (val.length < 16) {
                                     if (val == "0") {
                                       val = "5";
                                     } else {
@@ -484,15 +524,15 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //6
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '6',
                               onPressed: () {
                                 check_klik = 0;
                                 setState(() {
-                                  if (val.length <= 16) {
+                                  if (val.length < 16) {
                                     if (val == "0") {
                                       val = "6";
                                     } else {
@@ -510,8 +550,8 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //x
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: 'x',
@@ -579,7 +619,7 @@ class _TampilanState extends State<Tampilan> {
                     ],
                   ),
                 ),
-                //7,8,9,-
+                //1,2,3,-
                 SizedBox(
                   width: 600,
                   child: Column(
@@ -593,88 +633,111 @@ class _TampilanState extends State<Tampilan> {
                         spacing: 10, //bagian kanan
                         runSpacing: 10,
                         children: [
-                          //7
+                          //1
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
-                              text: '7',
+                              text: '1',
                               onPressed: () {
                                 setState(() {
                                   check_klik = 0;
-                                  if (val.length <= 16) {
+                                  int check = 0;
+                                  int do_min = 0;
+                                  if (val.length < 16) {
+                                    print('cukup');
                                     if (val == "0") {
-                                      val = "7";
+                                      val = "1";
                                     } else {
                                       if (in_count == '1') {
-                                        val = "7";
+                                        val = "1";
                                         in_count = '';
                                       } else {
-                                        val = "$val" + "7";
+                                        val = "$val" + "1";
                                       }
                                     }
+                                  } else {
+                                    // if (!val.contains('e')) {
+                                    //   val = "$val" + "e";
+                                    // } else {
+                                    // if (val.length >= 11) {
+                                    //   if (val.length == 11) {
+                                    //   } else {
+                                    //     check = val.length;
+                                    //     do_min = check - val.length;
+                                    //     print(do_min);
+                                    //     val = val.substring(0, do_min - 1);
+                                    //   }
+
+                                    //   val = "$val" + val_e.toString();
+                                    // } else {
+                                    //   val = "$val" + val_e.toString();
+                                    // }
+
+                                    // val_e += 1;
                                   }
+                                  // val = "$val" + "e";
+                                  // }
                                 });
                               },
                             ),
                           ),
-                          //8
+                          //2
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
-                              text: '8',
-                              onPressed: () {
-                                setState(() {
-                                  check_klik = 0;
-                                  if (val.length <= 16) {
-                                    if (val == "0") {
-                                      val = "8";
-                                    } else {
-                                      if (in_count == '1') {
-                                        val = "8";
-                                        in_count = '';
+                                text: '2',
+                                onPressed: () {
+                                  setState(() {
+                                    check_klik = 0;
+                                    if (val.length < 16) {
+                                      if (val == "0") {
+                                        val = "2";
                                       } else {
-                                        val = "$val" + "8";
+                                        if (in_count == '1') {
+                                          val = "2";
+                                          in_count = '';
+                                        } else {
+                                          val = "$val" + "2";
+                                        }
                                       }
                                     }
-                                  }
-                                });
-                              },
-                            ),
+                                  });
+                                }),
                           ),
-                          //9
+                          //3
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
-                              text: '9',
-                              onPressed: () {
-                                setState(() {
-                                  check_klik = 0;
-                                  if (val.length <= 16) {
-                                    if (val == "0") {
-                                      val = "9";
-                                    } else {
-                                      if (in_count == '1') {
-                                        val = "9";
-                                        in_count = '';
+                                text: '3',
+                                onPressed: () {
+                                  setState(() {
+                                    check_klik = 0;
+                                    if (val.length < 16) {
+                                      if (val == "0") {
+                                        val = "3";
                                       } else {
-                                        val = "$val" + "9";
+                                        if (in_count == '1') {
+                                          val = "3";
+                                          in_count = '';
+                                        } else {
+                                          val = "$val" + "3";
+                                        }
                                       }
                                     }
-                                  }
-                                });
-                              },
-                            ),
+                                  });
+                                }),
                           ),
+
                           //-
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '-',
@@ -759,23 +822,41 @@ class _TampilanState extends State<Tampilan> {
                         children: [
                           //.
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '.',
                               onPressed: () {
                                 setState(() {
-                                  if (val.length <= 16) {
-                                    if (val == "0") {
-                                      if (val_nol == "1") {
-                                        val = "$val" + ".";
+                                  if (val.length < 16) {
+                                    // if (val_to_show == '') {
+                                    // var check = '';
+                                    // check = val.substring(val.length - 1);
+                                    // print('ini check delete ' + check);
+                                    // } else {}
+                                    print(val);
+                                    // if (check != '.') {
+                                    if (!val.contains('.')) {
+                                      if (in_count == '1') {
+                                        val = "0.";
+                                        // val = "$val" + ".";
+                                        in_count = '';
                                       } else {
-                                        val = ".";
+                                        val = "$val" + ".";
                                       }
-                                    } else {
-                                      val = "$val" + ".";
                                     }
+                                    // }
+
+                                    // if (val == "0") {
+                                    //   if (val_nol == "1") {
+                                    //     val = "$val" + ".";
+                                    //   } else {
+                                    //     val = ".";
+                                    //   }
+                                    // } else {
+
+                                    // }
                                   }
                                 });
                               },
@@ -783,15 +864,15 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //0
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '0',
                               onPressed: () {
                                 setState(() {
                                   check_klik = 0;
-                                  if (val.length <= 16) {
+                                  if (val.length < 16) {
                                     val_nol = "1";
                                     if (val == "0") {
                                       val = "0";
@@ -811,10 +892,11 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //=
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
+                              colorButton: 0XFF9EC3DF,
                               text: '=',
                               onPressed: () {
                                 setState(() {
@@ -891,8 +973,8 @@ class _TampilanState extends State<Tampilan> {
                           ),
                           //+
                           Container(
-                            width: 120,
-                            height: 120,
+                            width: 110,
+                            height: 110,
                             color: Colors.transparent,
                             child: CustomButton(
                               text: '+',
@@ -942,6 +1024,7 @@ class _TampilanState extends State<Tampilan> {
                                           '=' +
                                           val_to_count.toString();
                                       data_history.add(get_to_history);
+                                      // data_history.sort();
                                       val = val_to_count.toString();
                                       in_count = '1';
                                     }
@@ -1007,98 +1090,203 @@ class _TampilanState extends State<Tampilan> {
               ],
             ),
           ),
+
+          //container history
           Container(
-            height: 500,
-            color: Colors.amber,
-            child: ListView(
-              shrinkWrap: true,
-              children: data_history
-                  .map((e) => Wrap(
-                        children: [
-                          Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                            ),
-                            child: Text(
-                              e,
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                          )
-                        ],
-                      ))
-                  .toList(),
-              // Container(
-              //   padding: EdgeInsets.all(10.0),
-              //   child: Text("List 2.1"),
-              // ),
-              // Container(
-              //   padding: EdgeInsets.all(10.0),
-              //   child: Text("List 2.2"),
-              // ),
-              // Container(
-              //   padding: EdgeInsets.all(10.0),
-              //   child: Text("List 2.2"),
-              // ),
-              // Container(
-              //   padding: EdgeInsets.all(10.0),
-              //   child: Text("List 2.2"),
-              // ),
-              // Container(
-              //   padding: EdgeInsets.all(10.0),
-              //   child: Text("List 2.2"),
-              // ),
-              // Container(
-              //   padding: EdgeInsets.all(10.0),
-              //   child: Text("List 2.2"),
-              // ),
+            height: 300,
+            color: Color(0XFFD2E7F7),
+            child: ListView(shrinkWrap: true, children: histiryStyle),
+          ),
+          //space
+          Container(
+            height: 15,
+            color: Color(0XFFD2E7F7),
+          ),
+          //button delete history
+          Container(
+            height: 40,
+            color: Color(0XFFD2E7F7),
+            child: Wrap(
+              alignment: WrapAlignment.end,
+              // crossAxisAlignment: WrapCrossAlignment.start,
+              children: [
+                CustomButtonDelete(
+                  onPressed: () {
+                    setState(() {
+                      data_history = [];
+                    });
+                  },
+                )
+              ],
             ),
           ),
-          // Container(
-          //   child: ListView(
-          //     children: [
-          //       Container(height: 60, color: Colors.blue
-
-          //           // data_history
-          //           //     .map((e) => Wrap(
-          //           //           children: [
-          //           //             Container(
-          //           //               width: 200,
-          //           //               height: 100,
-          //           //               decoration: BoxDecoration(
-          //           //                 borderRadius: BorderRadius.circular(100),
-          //           //                 color: Colors.amber,
-          //           //               ),
-          //           //               child: Text(
-          //           //                 e,
-          //           //                 style: const TextStyle(color: Colors.black),
-          //           //               ),
-          //           //             )
-          //           //           ],
-          //           //         ))
-          //           //     .toList(),
-          //           ),
-          //       Container(height: 60, color: Colors.blue)
-          //     ],
-          //   ),
-          // )
+          //space
+          Container(
+            height: 15,
+            color: Color(0XFFD2E7F7),
+          ),
         ],
       ),
     );
   }
 
-  // List<Widget> get histiryStyle  [
-  //   List<Widget> output = [];
-  //   output.add(Align(
-  //   child: Container(
-  //       width: 200,
-  //       height: 200,
-  //       decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(100),
-  //         color: Colors.amber,
-  //       )),
-  // ));
+  List<Widget> get histiryStyle {
+    List<Widget> output = [];
+    var olahString = '';
+    List<String> strToEachAgain = [];
+    var cxtCountCheck = 'a';
+    var cxtCount = '';
+    var cxtValue = '';
+    var checkToSlice = '';
+    var find = '';
+    var replaceWith = '';
+    var newString = '';
+    // data_history.sort();
+    data_history.map((e) {
+      print('ini e ');
+      print(e);
+      olahString = e;
+      print('ini olah ');
+      print(olahString.split('='));
+      strToEachAgain = olahString.split('=');
 
-  // ];
+      cxtCount = strToEachAgain[0];
+      cxtValue = strToEachAgain[1];
+
+      if (cxtCount.contains('+')) {
+        find = '+';
+        replaceWith = '  +  ';
+        newString = cxtCount.replaceAll(find, replaceWith);
+        cxtCount = newString;
+      } else if (cxtCount.contains('-')) {
+        find = '-';
+        replaceWith = '  -  ';
+        newString = cxtCount.replaceAll(find, replaceWith);
+        cxtCount = newString;
+      } else if (cxtCount.contains('*')) {
+        find = '*';
+        replaceWith = '  *  ';
+        newString = cxtCount.replaceAll(find, replaceWith);
+        cxtCount = newString;
+      } else if (cxtCount.contains('/')) {
+        find = '/';
+        replaceWith = '  /  ';
+        newString = cxtCount.replaceAll(find, replaceWith);
+        cxtCount = newString;
+      }
+      // cxtCount.padLeft(4, '+');
+      print('ini cxt1 ');
+      print(cxtCount);
+      output.add(
+        Container(
+          height: 40,
+          color: Color(0XFFD2E7F7),
+          child: Wrap(
+            alignment: WrapAlignment.end,
+            crossAxisAlignment: WrapCrossAlignment.end,
+            runAlignment: WrapAlignment.center,
+            children: [
+              Container(
+                height: 15,
+                decoration: const BoxDecoration(
+                  color: Color(0XFFD2E7F7),
+                ),
+                child: Text(
+                  "$cxtCount  = ",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontFamily: 'padauk',
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              )
+            ],
+          ),
+        ),
+      );
+      //Color(0XFFD2E7F7)
+      output.add(
+        Container(
+          height: 50,
+          color: Color(0XFFD2E7F7),
+          child: Wrap(
+            alignment: WrapAlignment.end,
+            crossAxisAlignment: WrapCrossAlignment.end,
+            runAlignment: WrapAlignment.center,
+            children: [
+              Container(
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: Color(0XFFD2E7F7),
+                ),
+                child: Text(
+                  "$cxtValue",
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 40,
+                      fontFamily: 'padauk',
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              )
+            ],
+          ),
+        ),
+      );
+      output.add(
+        Container(height: 30, color: Color(0XFFD2E7F7)),
+      );
+    }).toList();
+    return output;
+  }
+
   final List<String> nama = ['diana', 'alfi', 'ainun', 'nur', 'kha', 'sanah'];
 }
+
+class AdaptiveTextSize {
+  const AdaptiveTextSize();
+
+  getadaptiveTextSize(BuildContext context, dynamic value) {
+    // 720 is medium screen height
+    return (value / 720) * MediaQuery.of(context).size.height;
+  }
+}
+
+
+// ListView(
+//               shrinkWrap: true,
+//               children: data_history
+//                   .map(
+//                     (e) => Container(
+//                       height: 50,
+//                       color: Color(0XFFD2E7F7),
+//                       child: Wrap(
+//                         alignment: WrapAlignment.end,
+//                         crossAxisAlignment: WrapCrossAlignment.end,
+//                         runAlignment: WrapAlignment.center,
+//                         children: [
+//                           Container(
+//                             height: 20,
+//                             decoration: const BoxDecoration(
+//                               color: Colors.amber,
+//                             ),
+//                             child: Text(
+//                               e,
+//                               style: const TextStyle(
+//                                   color: Colors.black,
+//                                   fontSize: 20,
+//                                   fontFamily: 'padauk',
+//                                   fontWeight: FontWeight.bold),
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                   )
+//                   .toList(),
+//             ),
